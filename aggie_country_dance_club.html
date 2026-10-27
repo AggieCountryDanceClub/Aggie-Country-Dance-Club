@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aggie Country Dance Club - Texas A&M University</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        aggie: {
+                            maroon: '#500000',
+                            dark: '#380000',
+                            light: '#700000',
+                            gold: '#C59B27',
+                            cream: '#FDFBF7',
+                            leather: '#8B4513',
+                            wood: '#2C1A0E'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom textured backgrounds & accents */
+        .bg-wood-pattern {
+            background-color: #2C1A0E;
+            background-image: radial-gradient(circle at 50% 50%, rgba(80, 0, 0, 0.4) 0%, rgba(20, 10, 5, 0.95) 100%);
+        }
+        .hero-overlay {
+            background: linear-gradient(180deg, rgba(80, 0, 0, 0.75) 0%, rgba(20, 10, 5, 0.9) 100%);
+        }
+        .text-glow {
+            text-shadow: 0 0 15px rgba(197, 155, 39, 0.4);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+        }
+        .accordion-content.active {
+            max-height: 500px;
+            transition: max-height 0.3s cubic-bezier(1, 0, 1, 0);
+        }
+    </style>
+</head>
+<body class="bg-aggie-cream text-gray-800 font-sans antialiased flex flex-col min-h-screen selection:bg-aggie-maroon selection:text-white">
+
+    <!-- NAVIGATION BAR -->
+    <nav class="sticky top-0 z-50 bg-aggie-maroon text-white shadow-xl border-b border-aggie-gold/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand / Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-12 h-12 rounded-full bg-aggie-gold flex items-center justify-center text-aggie-maroon shadow-md transform group-hover:rotate-12 transition-transform">
+                        <i class="fa-solid fa-person-dancing text-2xl"></i>
+                    </div>
+                    <div>
+                        <span class="font-black text-xl tracking-wider block leading-none font-serif text-white">AGGIE COUNTRY</span>
+                        <span class="text-xs tracking-widest text-aggie-gold uppercase font-semibold">Dance Club • TAMU</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <div class="hidden md:flex items-center space-x-8 font-medium text-sm tracking-wide">
+                    <a href="#schedule" class="hover:text-aggie-gold transition-colors py-2">Schedule & Lessons</a>
+                    <a href="#styles" class="hover:text-aggie-gold transition-colors py-2">Dance Styles</a>
+                    <a href="#events" class="hover:text-aggie-gold transition-colors py-2">Events & Socials</a>
+                    <a href="#membership" class="hover:text-aggie-gold transition-colors py-2">Membership & FAQ</a>
+                    <a href="#leadership" class="hover:text-aggie-gold transition-colors py-2">Leadership</a>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="hidden md:block">
+                    <button onclick="openModal('joinModal')" class="bg-aggie-gold hover:bg-yellow-500 text-aggie-dark font-bold px-5 py-2.5 rounded-full shadow-lg transition-all transform hover:-translate-y-0.5 hover:shadow-aggie-gold/20 flex items-center gap-2">
+                        <i class="fa-solid fa-user-plus"></i> Join the Club
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobileMenuBtn" class="text-white hover:text-aggie-gold p-2 focus:outline-none" aria-label="Toggle Menu">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-aggie-dark border-t border-aggie-gold/20 px-4 pt-2 pb-6 space-y-3">
+            <a href="#schedule" class="mobile-link block py-2 px-3 rounded text-base font-medium hover:bg-aggie-maroon hover:text-aggie-gold">Schedule & Lessons</a>
+            <a href="#styles" class="mobile-link block py-2 px-3 rounded text-base font-medium hover:bg-aggie-maroon hover:text-aggie-gold">Dance Styles</a>
+            <a href="#events" class="mobile-link block py-2 px-3 rounded text-base font-medium hover:bg-aggie-maroon hover:text-aggie-gold">Events & Socials</a>
+            <a href="#membership" class="mobile-link block py-2 px-3 rounded text-base font-medium hover:bg-aggie-maroon hover:text-aggie-gold">Membership & FAQ</a>
+            <a href="#leadership" class="mobile-link block py-2 px-3 rounded text-base font-medium hover:bg-aggie-maroon hover:text-aggie-gold">Leadership</a>
+            <button onclick="openModal('joinModal'); toggleMobileMenu();" class="w-full text-center bg-aggie-gold text-aggie-dark font-bold px-4 py-3 rounded-xl shadow mt-2 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-user-plus"></i> Join the Club
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO HEADER SECTION -->
+    <header class="relative bg-wood-pattern text-white overflow-hidden py-24 lg:py-32 border-b-8 border-aggie-gold">
+        <!-- Background Decorative Elements -->
+        <div class="absolute inset-0 opacity-20 pointer-events-none">
+            <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-aggie-maroon blur-3xl"></div>
+            <div class="absolute top-1/2 right-0 w-80 h-80 rounded-full bg-aggie-gold blur-3xl"></div>
+        </div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-aggie-maroon/80 border border-aggie-gold/40 text-aggie-gold text-sm font-semibold mb-6 shadow-inner">
+                <i class="fa-solid fa-star text-xs"></i> Official Texas A&M Student Organization <i class="fa-solid fa-star text-xs"></i>
+            </div>
+            
+            <!-- Headline -->
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight font-serif mb-6 leading-tight">
+                Kick Up Your Boots With <br class="hidden sm:inline">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-aggie-gold via-yellow-200 to-aggie-gold text-glow">Aggie Country Dance</span>
+            </h1>
+
+            <p class="max-w-2xl mx-auto text-lg sm:text-xl text-gray-300 font-light mb-10 leading-relaxed">
+                Learn Two-Step, Country Swing, Line Dancing, and West Coast Swing! No partner or prior experience needed. Gig 'em and let's dance!
+            </p>
+
+            <!-- Dynamic CTA Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
+                <a href="#schedule" class="w-full sm:w-auto bg-aggie-maroon hover:bg-aggie-light border-2 border-aggie-gold text-white font-bold px-8 py-4 rounded-xl shadow-2xl transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3 group">
+                    <i class="fa-solid fa-calendar-check text-aggie-gold group-hover:scale-110 transition-transform"></i>
+                    <span>Join Us on Mondays</span>
+                </a>
+                <a href="#events" class="w-full sm:w-auto bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold px-8 py-4 rounded-xl border border-white/20 shadow-xl transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-music text-aggie-gold"></i>
+                    <span>Upcoming Events</span>
+                </a>
+            </div>
+
+            <!-- Quick Info Ribbon -->
+            <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8 border-t border-white/10">
+                <div class="p-3 glass-card rounded-lg">
+                    <span class="block text-2xl font-bold text-aggie-gold">Every Monday</span>
+                    <span class="text-xs text-gray-400 uppercase tracking-wider">Weekly Lessons</span>
+                </div>
+                <div class="p-3 glass-card rounded-lg">
+                    <span class="block text-2xl font-bold text-aggie-gold">8:00 PM</span>
+                    <span class="text-xs text-gray-400 uppercase tracking-wider">Rec Center Studio</span>
+                </div>
+                <div class="p-3 glass-card rounded-lg">
+                    <span class="block text-2xl font-bold text-aggie-gold">$0 Partner</span>
+                    <span class="text-xs text-gray-400 uppercase tracking-wider">Come Solo or Bring Friends</span>
+                </div>
+                <div class="p-3 glass-card rounded-lg">
+                    <span class="block text-2xl font-bold text-aggie-gold">All Levels</span>
+                    <span class="text-xs text-gray-400 uppercase tracking-wider">Beginner Friendly</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- WEEKLY LESSONS & SCHEDULE SECTION -->
+    <section id="schedule" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-aggie-maroon mb-2">Weekly Rhythm</h2>
+                <p class="text-3xl sm:text-4xl font-extrabold font-serif text-gray-900">Monday Night Dance Schedule</p>
+                <div class="w-20 h-1 bg-aggie-gold mx-auto mt-4 rounded-full"></div>
+                <p class="mt-4 text-gray-600">Join us every week during the school semester at the Texas A&M Student Recreation Center. Check room assignments weekly on our socials!</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8 items-stretch">
+                <!-- Location & Details Card -->
+                <div class="lg:col-span-1 bg-aggie-maroon text-white p-8 rounded-2xl shadow-xl flex flex-col justify-between border-l-8 border-aggie-gold relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 opacity-10 text-white pointer-events-none">
+                        <i class="fa-solid fa-map-location-dot text-9xl"></i>
+                    </div>
+                    <div>
+                        <div class="inline-block bg-aggie-gold text-aggie-dark text-xs font-bold px-3 py-1 rounded-full uppercase mb-4">Prime Location</div>
+                        <h3 class="text-2xl font-bold font-serif mb-4">Student Recreation Center</h3>
+                        <p class="text-aggie-cream/80 text-sm mb-6 leading-relaxed">
+                            Texas A&M University Campus<br>
+                            797 Olsen Blvd, College Station, TX 77843
+                        </p>
+                        
+                        <div class="space-y-4 mb-8">
+                            <div class="flex items-start gap-3">
+                                <i class="fa-solid fa-door-open text-aggie-gold mt-1"></i>
+                                <div>
+                                    <span class="font-bold block text-sm">Room / Studio</span>
+                                    <span class="text-xs text-gray-300">Room 222 or Heavy Dance Studio (Check GroupMe)</span>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="fa-solid fa-shirt text-aggie-gold mt-1"></i>
+                                <div>
+                                    <span class="font-bold block text-sm">What to Wear</span>
+                                    <span class="text-xs text-gray-300">Boots, sneakers, or dance shoes. Comfortable attire!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://maps.google.com/?q=Texas+A%26M+Student+Recreation+Center" target="_blank" class="w-full bg-white text-aggie-maroon hover:bg-aggie-gold hover:text-aggie-dark font-bold py-3 rounded-xl transition-colors text-center shadow flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-location-arrow"></i> Get Directions
+                    </a>
+                </div>
+
+                <!-- Timeline Breakdown (2 Cols) -->
+                <div class="lg:col-span-2 bg-aggie-cream p-8 rounded-2xl border border-gray-200 shadow-lg flex flex-col justify-center">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                        <i class="fa-solid fa-clock text-aggie-maroon"></i> Routine Breakdown
+                    </h3>
+
+                    <div class="space-y-6 relative before:absolute before:inset-0 before:left-4 before:w-0.5 before:bg-aggie-maroon/20">
+                        <!-- Step 1 -->
+                        <div class="relative pl-10 group">
+                            <div class="absolute left-1.5 top-1.5 -translate-x-1/2 w-6 h-6 rounded-full bg-aggie-maroon text-aggie-gold flex items-center justify-center text-xs font-bold group-hover:scale-125 transition-transform">
+                                1
+                            </div>
+                            <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                                <div class="flex flex-wrap justify-between items-center gap-2 mb-1">
+                                    <h4 class="font-bold text-lg text-aggie-maroon">Beginner Lesson</h4>
+                                    <span class="bg-green-100 text-green-800 text-xs font-bold px-2.5 py-1 rounded-full">8:00 PM - 8:45 PM</span>
+                                </div>
+                                <p class="text-gray-600 text-sm">Foundational footsteps! We cover basic Two-Step, basic Country Swing spins, and beginner line dance routines. Perfect if you have two left feet!</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="relative pl-10 group">
+                            <div class="absolute left-1.5 top-1.5 -translate-x-1/2 w-6 h-6 rounded-full bg-aggie-maroon text-aggie-gold flex items-center justify-center text-xs font-bold group-hover:scale-125 transition-transform">
+                                2
+                            </div>
+                            <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                                <div class="flex flex-wrap justify-between items-center gap-2 mb-1">
+                                    <h4 class="font-bold text-lg text-aggie-maroon">Intermediate & Advanced Workshop</h4>
+                                    <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-full">8:45 PM - 9:30 PM</span>
+                                </div>
+                                <p class="text-gray-600 text-sm">Level up your moves! Dive into intricate dip technique, aerials, complex swing patterns, and popular social line dances.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="relative pl-10 group">
+                            <div class="absolute left-1.5 top-1.5 -translate-x-1/2 w-6 h-6 rounded-full bg-aggie-gold text-aggie-dark flex items-center justify-center text-xs font-bold group-hover:scale-125 transition-transform">
+                                3
+                            </div>
+                            <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                                <div class="flex flex-wrap justify-between items-center gap-2 mb-1">
+                                    <h4 class="font-bold text-lg text-gray-900">Open Social Dancing</h4>
+                                    <span class="bg-purple-100 text-purple-800 text-xs font-bold px-2.5 py-1 rounded-full">9:30 PM - 10:30 PM+</span>
+                                </div>
+                                <p class="text-gray-600 text-sm">Put your new skills to work! Request your favorite country songs, rotate partners, social dance, and hang out with the Aggie dance family.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURED DANCE STYLES SECTION -->
+    <section id="styles" class="py-20 bg-aggie-cream border-t border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-aggie-maroon mb-2">Dance Styles Offered</h2>
+                <p class="text-3xl sm:text-4xl font-extrabold font-serif text-gray-900">Find Your Rhythm</p>
+                <div class="w-20 h-1 bg-aggie-gold mx-auto mt-4 rounded-full"></div>
+                <p class="mt-4 text-gray-600">From classic Texas Honky-Tonk Two-Step to high-energy Country Swing, we teach dynamic styles for every dancer.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Style Card 1: Two-Step -->
+                <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-gray-100 flex flex-col group">
+                    <div class="h-48 bg-aggie-maroon relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+                        <i class="fa-solid fa-[#] fa-shoe-prints text-6xl text-aggie-gold/30 group-hover:scale-125 transition-transform duration-500"></i>
+                        <span class="absolute bottom-4 left-4 z-20 font-serif font-bold text-2xl text-white">Texas Two-Step</span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <p class="text-gray-600 text-sm leading-relaxed mb-6">
+                            The king of Texas dance halls! Counter-clockwise progressive dance characterized by smooth quick-quick-slow-slow rhythm and elegant turns.
+                        </p>
+                        <div class="flex items-center justify-between text-xs font-semibold text-aggie-maroon bg-aggie-maroon/5 p-3 rounded-xl">
+                            <span>Difficulty: Beginner Friendly</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Style Card 2: Country Swing -->
+                <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-gray-100 flex flex-col group">
+                    <div class="h-48 bg-aggie-wood relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+                        <i class="fa-solid fa-bolt text-6xl text-aggie-gold/30 group-hover:scale-125 transition-transform duration-500"></i>
+                        <span class="absolute bottom-4 left-4 z-20 font-serif font-bold text-2xl text-white">Country Swing</span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <p class="text-gray-600 text-sm leading-relaxed mb-6">
+                            High-energy, fast-paced, and full of excitement! Features spins, dips, pretzel arms, and flashy moves tailored to fast country songs.
+                        </p>
+                        <div class="flex items-center justify-between text-xs font-semibold text-aggie-maroon bg-aggie-maroon/5 p-3 rounded-xl">
+                            <span>Energy: High / Dynamic</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Style Card 3: Line Dancing -->
+                <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-gray-100 flex flex-col group">
+                    <div class="h-48 bg-aggie-dark relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+                        <i class="fa-solid fa-users-line text-6xl text-aggie-gold/30 group-hover:scale-125 transition-transform duration-500"></i>
+                        <span class="absolute bottom-4 left-4 z-20 font-serif font-bold text-2xl text-white">Line Dancing</span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <p class="text-gray-600 text-sm leading-relaxed mb-6">
+                            No partner needed! Learn popular floor fillers like the Copperhead Road, Shivers, Watermelon Crawl, and modern trending line dances.
+                        </p>
+                        <div class="flex items-center justify-between text-xs font-semibold text-aggie-maroon bg-aggie-maroon/5 p-3 rounded-xl">
+                            <span>Partner Required: None</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Style Card 4: West Coast Swing -->
+                <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-gray-100 flex flex-col group">
+                    <div class="h-48 bg-aggie-maroon relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+                        <i class="fa-solid fa-music text-6xl text-aggie-gold/30 group-hover:scale-125 transition-transform duration-500"></i>
+                        <span class="absolute bottom-4 left-4 z-20 font-serif font-bold text-2xl text-white">West Coast Swing</span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <p class="text-gray-600 text-sm leading-relaxed mb-6">
+                            Smooth, elastic, and versatile slotted swing style danced to contemporary country, blues, and pop beats. Great for improvisational flair!
+                        </p>
+                        <div class="flex items-center justify-between text-xs font-semibold text-aggie-maroon bg-aggie-maroon/5 p-3 rounded-xl">
+                            <span>Vibe: Smooth & Creative</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIALS & EVENTS CALENDAR SECTION -->
+    <section id="events" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-aggie-maroon mb-2">Get Social</h2>
+                    <p class="text-3xl sm:text-4xl font-extrabold font-serif text-gray-900">Events & Dance Socials</p>
+                </div>
+                <!-- Filter Buttons -->
+                <div class="mt-6 md:mt-0 flex flex-wrap gap-2" id="eventFilters">
+                    <button onclick="filterEvents('all')" class="filter-btn active bg-aggie-maroon text-white px-4 py-2 rounded-full text-xs font-bold transition-colors">All Events</button>
+                    <button onclick="filterEvents('social')" class="filter-btn bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-xs font-bold transition-colors">Social Nights</button>
+                    <button onclick="filterEvents('barn')" class="filter-btn bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-xs font-bold transition-colors">Barn Dances</button>
+                    <button onclick="filterEvents('trip')" class="filter-btn bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-xs font-bold transition-colors">Dance Hall Visits</button>
+                </div>
+            </div>
+
+            <!-- Events Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="eventsGrid">
+                
+                <!-- Event 1 -->
+                <div class="event-card social bg-aggie-cream rounded-2xl p-6 border border-gray-200 shadow-md hover:shadow-xl transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-aggie-maroon text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Social Night</span>
+                            <span class="text-xs font-semibold text-gray-500"><i class="fa-regular fa-clock"></i> Friday 8:30 PM</span>
+                        </div>
+                        <h3 class="text-xl font-bold font-serif text-gray-900 mb-2">Harry's Senior Zone Out Night</h3>
+                        <p class="text-gray-600 text-sm mb-4">Caravan to Harry's Senior Zone in College Station! Free cover before 9 PM with student ID. Meet at Rec Center at 8:00 PM for carpooling.</p>
+                    </div>
+                    <div class="pt-4 border-t border-gray-200/80 flex items-center justify-between">
+                        <span class="text-xs text-gray-500 font-medium"><i class="fa-solid fa-location-dot text-aggie-maroon"></i> Harry's, College Station</span>
+                        <button onclick="openModal('joinModal')" class="text-xs font-bold text-aggie-maroon hover:text-aggie-gold transition-colors">RSVP in GroupMe &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Event 2 -->
+                <div class="event-card barn bg-aggie-cream rounded-2xl p-6 border border-gray-200 shadow-md hover:shadow-xl transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-aggie-gold text-aggie-dark text-xs font-bold px-3 py-1 rounded-full uppercase">Barn Dance</span>
+                            <span class="text-xs font-semibold text-gray-500"><i class="fa-regular fa-clock"></i> Next Sat 7:00 PM</span>
+                        </div>
+                        <h3 class="text-xl font-bold font-serif text-gray-900 mb-2">Annual Aggie Boots & Barn Bash</h3>
+                        <p class="text-gray-600 text-sm mb-4">Our biggest themed dance of the semester! Live country DJ, photo booths, refreshments, and open dancing under the fairy lights.</p>
+                    </div>
+                    <div class="pt-4 border-t border-gray-200/80 flex items-center justify-between">
+                        <span class="text-xs text-gray-500 font-medium"><i class="fa-solid fa-location-dot text-aggie-maroon"></i> Brazos County Expo</span>
+                        <button onclick="openModal('joinModal')" class="text-xs font-bold text-aggie-maroon hover:text-aggie-gold transition-colors">RSVP in GroupMe &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Event 3 -->
+                <div class="event-card trip bg-aggie-cream rounded-2xl p-6 border border-gray-200 shadow-md hover:shadow-xl transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-aggie-leather text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Dance Hall Visit</span>
+                            <span class="text-xs font-semibold text-gray-500"><i class="fa-regular fa-clock"></i> Nov 14th 6:00 PM</span>
+                        </div>
+                        <h3 class="text-xl font-bold font-serif text-gray-900 mb-2">Roadtrip to Gruene Hall</h3>
+                        <p class="text-gray-600 text-sm mb-4">Day trip to Texas' oldest continuously operating dance hall in New Braunfels! Experience traditional Texas dance culture together.</p>
+                    </div>
+                    <div class="pt-4 border-t border-gray-200/80 flex items-center justify-between">
+                        <span class="text-xs text-gray-500 font-medium"><i class="fa-solid fa-location-dot text-aggie-maroon"></i> New Braunfels, TX</span>
+                        <button onclick="openModal('joinModal')" class="text-xs font-bold text-aggie-maroon hover:text-aggie-gold transition-colors">RSVP in GroupMe &rarr;</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- MEMBERSHIP PERKS & FAQ SECTION -->
+    <section id="membership" class="py-20 bg-wood-pattern text-white border-t-4 border-b-4 border-aggie-gold">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-start">
+                
+                <!-- Left: Membership Perks -->
+                <div>
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-aggie-gold mb-2">Join The Aggie Family</h2>
+                    <h3 class="text-3xl sm:text-4xl font-extrabold font-serif mb-6">Why Join Aggie Country Dance Club?</h3>
+                    <p class="text-gray-300 mb-8 leading-relaxed">
+                        Whether you want to learn to dance for Texas A&M Traditions, prepare for weddings and dance halls, or just make awesome lifelong friends, ACDC is your home on campus!
+                    </p>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4 p-4 rounded-xl glass-card">
+                            <div class="w-10 h-10 rounded-full bg-aggie-gold/20 border border-aggie-gold flex items-center justify-center text-aggie-gold shrink-0">
+                                <i class="fa-solid fa-heart-circle-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-white">No Experience or Partner Needed</h4>
+                                <p class="text-sm text-gray-300">We rotate partners constantly throughout lessons. You'll meet dozens of new people every Monday!</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 rounded-xl glass-card">
+                            <div class="w-10 h-10 rounded-full bg-aggie-gold/20 border border-aggie-gold flex items-center justify-center text-aggie-gold shrink-0">
+                                <i class="fa-solid fa-dollar-sign"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-white">Affordable Dues</h4>
+                                <p class="text-sm text-gray-300">Your first two Monday lessons are completely FREE! Semester dues are minimal and cover club socials and t-shirts.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 rounded-xl glass-card">
+                            <div class="w-10 h-10 rounded-full bg-aggie-gold/20 border border-aggie-gold flex items-center justify-center text-aggie-gold shrink-0">
+                                <i class="fa-solid fa-user-group"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-white">Welcoming Community</h4>
+                                <p class="text-sm text-gray-300">A friendly, supportive environment where everyone encourages each other regardless of skill level.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8">
+                        <button onclick="openModal('joinModal')" class="bg-aggie-gold hover:bg-yellow-500 text-aggie-dark font-extrabold px-8 py-4 rounded-xl shadow-xl transition-all transform hover:-translate-y-1">
+                            Get Connected in GroupMe
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right: Accordion FAQs -->
+                <div class="bg-white/5 p-6 sm:p-8 rounded-2xl backdrop-blur-md border border-white/10">
+                    <h3 class="text-2xl font-bold font-serif mb-6 text-aggie-gold flex items-center gap-2">
+                        <i class="fa-solid fa-circle-question"></i> Frequently Asked Questions
+                    </h3>
+
+                    <div class="space-y-4" id="faqAccordion">
+                        <!-- FAQ 1 -->
+                        <div class="border border-white/10 rounded-xl overflow-hidden bg-white/5">
+                            <button onclick="toggleFaq(this)" class="w-full text-left p-4 font-semibold text-white flex justify-between items-center hover:bg-white/5 transition-colors">
+                                <span>Do I need to bring a partner?</span>
+                                <i class="fa-solid fa-chevron-down text-aggie-gold transition-transform duration-300"></i>
+                            </button>
+                            <div class="accordion-content px-4 text-sm text-gray-300 pb-4">
+                                Nope! Most members show up solo. We rotate partners frequently during the lesson so you get to practice with everyone and make tons of friends.
+                            </div>
+                        </div>
+
+                        <!-- FAQ 2 -->
+                        <div class="border border-white/10 rounded-xl overflow-hidden bg-white/5">
+                            <button onclick="toggleFaq(this)" class="w-full text-left p-4 font-semibold text-white flex justify-between items-center hover:bg-white/5 transition-colors">
+                                <span>What should I wear to Monday lessons?</span>
+                                <i class="fa-solid fa-chevron-down text-aggie-gold transition-transform duration-300"></i>
+                            </button>
+                            <div class="accordion-content px-4 text-sm text-gray-300 pb-4">
+                                Wear comfortable casual clothes! Boots are welcome (leather soles slide best!), but sneakers or smooth-soled shoes work great too. Rubber soles might stick a bit to the studio floor.
+                            </div>
+                        </div>
+
+                        <!-- FAQ 3 -->
+                        <div class="border border-white/10 rounded-xl overflow-hidden bg-white/5">
+                            <button onclick="toggleFaq(this)" class="w-full text-left p-4 font-semibold text-white flex justify-between items-center hover:bg-white/5 transition-colors">
+                                <span>Can non-TAMU students or community members join?</span>
+                                <i class="fa-solid fa-chevron-down text-aggie-gold transition-transform duration-300"></i>
+                            </button>
+                            <div class="accordion-content px-4 text-sm text-gray-300 pb-4">
+                                Yes! While we are a Texas A&M student org, Blinn students, TAMU alumni, and local College Station community members are welcome to attend. Rec Center guest passes or Rec memberships apply.
+                            </div>
+                        </div>
+
+                        <!-- FAQ 4 -->
+                        <div class="border border-white/10 rounded-xl overflow-hidden bg-white/5">
+                            <button onclick="toggleFaq(this)" class="w-full text-left p-4 font-semibold text-white flex justify-between items-center hover:bg-white/5 transition-colors">
+                                <span>How much are dues?</span>
+                                <i class="fa-solid fa-chevron-down text-aggie-gold transition-transform duration-300"></i>
+                            </button>
+                            <div class="accordion-content px-4 text-sm text-gray-300 pb-4">
+                                Your first two visits are completely free to try out! Semester dues are $25, which covers lesson instruction, official t-shirt, discount entry to club barn dances, and social events.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- OFFICERS & LEADERSHIP SECTION -->
+    <section id="leadership" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-aggie-maroon mb-2">Meet The Execs</h2>
+                <p class="text-3xl sm:text-4xl font-extrabold font-serif text-gray-900">Officer Team</p>
+                <div class="w-20 h-1 bg-aggie-gold mx-auto mt-4 rounded-full"></div>
+                <p class="mt-4 text-gray-600">Dedicated Aggies passionate about bringing Texas country dance culture to campus.</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Officer 1 -->
+                <div class="bg-aggie-cream rounded-2xl p-6 border border-gray-200 shadow-md text-center hover:shadow-xl transition-shadow">
+                    <div class="w-28 h-28 mx-auto rounded-full bg-aggie-maroon text-aggie-gold flex items-center justify-center text-4xl mb-4 shadow-md font-serif font-bold border-4 border-aggie-gold">
+                        JD
+                    </div>
+                    <h4 class="font-bold text-lg text-gray-900">Jackson Davis '26</h4>
+                    <p class="text-xs font-bold text-aggie-maroon uppercase tracking-wider mb-3">President</p>
+                    <p class="text-xs text-gray-600 leading-relaxed mb-4">"Favorite style: Texas Two-Step! Hit me up for lesson questions."</p>
+                    <span class="inline-block bg-aggie-maroon/10 text-aggie-maroon text-xs font-semibold px-3 py-1 rounded-full">Industrial Distribution</span>
+                </div>
+
+                <!-- Officer 2 -->
+                <div class="bg-aggie-cream rounded-2xl p-6 border border-gray-200 shadow-md text-center hover:shadow-xl transition-shadow">
+                    <div class="w-28 h-28 mx-auto rounded-full bg-aggie-maroon text-aggie-gold flex items-center justify-center text-4xl mb-4 shadow-md font-serif font-bold border-4 border-aggie-gold">
+                        SL
+                    </div>
+                    <h4 class="font-bold text-lg text-gray-900">Sarah Loggins '25</h4>
+                    <p class="text-xs font-bold text-aggie-maroon uppercase tracking-wider mb-3">Vice President & Head Instructor</p>
+                    <p class="text-xs text-gray-600 leading-relaxed mb-4">"Lover of high-flying swing dips & choreography."</p>
+                    <span class="inline-block bg-aggie-maroon/10 text-aggie-maroon text-xs font-semibold px-3 py-1 rounded-full">Kinesiology</span>
+                </div>
+
+                <!-- Officer 3 -->
+                <div class="bg-aggie-cream rounded-2xl p-6 border border-gray-200 shadow-md text-center hover:shadow-xl transition-shadow">
+                    <div class="w-28 h-28 mx-auto rounded-full bg-aggie-maroon text-aggie-gold flex items-center justify-center text-4xl mb-4 shadow-md font-serif font-bold border-4 border-aggie-gold">
+                        CM
+                    </div>
+                    <h4 class="font-bold text-lg text-gray-900">Caleb Miller '27</h4>
+                    <p class="text-xs font-bold text-aggie-maroon uppercase tracking-wider mb-3">Social Chair</p>
+                    <p class="text-xs text-gray-600 leading-relaxed mb-4">"Organizing barn dances, dance hall road trips, and social mixers!"</p>
+                    <span class="inline-block bg-aggie-maroon/10 text-aggie-maroon text-xs font-semibold px-3 py-1 rounded-full">Agribusiness</span>
+                </div>
+
+                <!-- Officer 4 -->
+                <div class="bg-aggie-cream rounded-2xl p-6 border border-gray-200 shadow-md text-center hover:shadow-xl transition-shadow">
+                    <div class="w-28 h-28 mx-auto rounded-full bg-aggie-maroon text-aggie-gold flex items-center justify-center text-4xl mb-4 shadow-md font-serif font-bold border-4 border-aggie-gold">
+                        EH
+                    </div>
+                    <h4 class="font-bold text-lg text-gray-900">Emma Hayes '26</h4>
+                    <p class="text-xs font-bold text-aggie-maroon uppercase tracking-wider mb-3">Treasurer & Media</p>
+                    <p class="text-xs text-gray-600 leading-relaxed mb-4">"Running our Instagram and keeping dues low for everyone."</p>
+                    <span class="inline-block bg-aggie-maroon/10 text-aggie-maroon text-xs font-semibold px-3 py-1 rounded-full">Communication</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-aggie-dark text-white border-t border-aggie-gold/30 pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <!-- Col 1 -->
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-aggie-gold flex items-center justify-center text-aggie-maroon">
+                            <i class="fa-solid fa-person-dancing text-xl"></i>
+                        </div>
+                        <span class="font-bold text-xl font-serif text-white">Aggie Country Dance Club</span>
+                    </div>
+                    <p class="text-gray-400 text-sm max-w-md leading-relaxed mb-6">
+                        Texas A&M University's premier country dancing student organization. Promoting dance, fellowship, Texas tradition, and fun in College Station, TX.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://instagram.com" target="_blank" class="w-10 h-10 rounded-full bg-white/10 hover:bg-aggie-gold hover:text-aggie-dark flex items-center justify-center transition-colors">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="https://facebook.com" target="_blank" class="w-10 h-10 rounded-full bg-white/10 hover:bg-aggie-gold hover:text-aggie-dark flex items-center justify-center transition-colors">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="https://tiktok.com" target="_blank" class="w-10 h-10 rounded-full bg-white/10 hover:bg-aggie-gold hover:text-aggie-dark flex items-center justify-center transition-colors">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
+                        <a href="mailto:contact@aggiecountrydance.org" class="w-10 h-10 rounded-full bg-white/10 hover:bg-aggie-gold hover:text-aggie-dark flex items-center justify-center transition-colors">
+                            <i class="fa-solid fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Quick Links -->
+                <div>
+                    <h4 class="font-serif font-bold text-aggie-gold mb-4 text-lg">Quick Links</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#schedule" class="hover:text-white transition-colors">Monday Schedule</a></li>
+                        <li><a href="#styles" class="hover:text-white transition-colors">Two-Step & Swing</a></li>
+                        <li><a href="#events" class="hover:text-white transition-colors">Social Events</a></li>
+                        <li><a href="#membership" class="hover:text-white transition-colors">Membership Perks</a></li>
+                        <li><a href="#membership" class="hover:text-white transition-colors">FAQs</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Contact Info -->
+                <div>
+                    <h4 class="font-serif font-bold text-aggie-gold mb-4 text-lg">Contact Us</h4>
+                    <p class="text-sm text-gray-400 mb-2"><i class="fa-solid fa-location-dot text-aggie-gold mr-2"></i> Student Rec Center, TAMU</p>
+                    <p class="text-sm text-gray-400 mb-2"><i class="fa-solid fa-envelope text-aggie-gold mr-2"></i> acdc.tamu@gmail.com</p>
+                    <p class="text-sm text-gray-400"><i class="fa-solid fa-comments text-aggie-gold mr-2"></i> GroupMe Chat Active</p>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4">
+                <p>&copy; <span id="year"></span> Aggie Country Dance Club (ACDC). All rights reserved. Gig 'em!</p>
+                <p>Designed with Maroon & White Pride </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE MODAL: JOIN GROUPME & EMAIL LIST -->
+    <div id="joinModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative border-2 border-aggie-gold">
+            <!-- Close Button -->
+            <button onclick="closeModal('joinModal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 w-8 h-8 rounded-full flex items-center justify-center bg-gray-100">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <div class="w-14 h-14 bg-aggie-maroon text-aggie-gold rounded-full flex items-center justify-center mx-auto mb-3 text-2xl shadow-lg">
+                    <i class="fa-solid fa-comments"></i>
+                </div>
+                <h3 class="text-2xl font-bold font-serif text-gray-900">Join Aggie Country Dance</h3>
+                <p class="text-xs text-gray-500 mt-1">Get weekly lesson room updates, event alerts, and ride shares!</p>
+            </div>
+
+            <!-- Join Options Tabs -->
+            <form id="joinForm" onsubmit="handleJoinSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">Full Name</label>
+                    <input type="text" required placeholder="Reveille Texas" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-aggie-maroon focus:outline-none text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">TAMU or Personal Email</label>
+                    <input type="email" required placeholder="gigem@tamu.edu" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-aggie-maroon focus:outline-none text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">Phone Number (Optional for SMS/GroupMe)</label>
+                    <input type="tel" placeholder="(979) 845-3211" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-aggie-maroon focus:outline-none text-sm">
+                </div>
+                
+                <button type="submit" class="w-full bg-aggie-maroon hover:bg-aggie-dark text-white font-bold py-3.5 rounded-xl shadow-lg transition-colors flex items-center justify-center gap-2">
+                    <span>Submit & Get GroupMe Invite</span>
+                    <i class="fa-solid fa-arrow-right text-aggie-gold"></i>
+                </button>
+            </form>
+
+            <!-- Success Notification Message Box (Hidden by default) -->
+            <div id="joinSuccess" class="hidden text-center py-6">
+                <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h4 class="font-bold text-lg text-gray-900">You're On The List!</h4>
+                <p class="text-xs text-gray-600 mt-2 mb-4">Click below to join our official active GroupMe chat immediately.</p>
+                <a href="https://groupme.com" target="_blank" onclick="closeModal('joinModal')" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold px-6 py-2.5 rounded-xl text-sm transition-colors shadow">
+                    <i class="fa-solid fa-paper-plane mr-1"></i> Open GroupMe App
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Dynamic Footer Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('hidden');
+        }
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+
+        // Accordion Toggle
+        function toggleFaq(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            content.classList.toggle('active');
+            if (content.classList.contains('active')) {
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Event Filtering
+        function filterEvents(category) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-aggie-maroon', 'text-white');
+                btn.classList.add('bg-gray-100', 'text-gray-700');
+            });
+
+            event.target.classList.remove('bg-gray-100', 'text-gray-700');
+            event.target.classList.add('bg-aggie-maroon', 'text-white');
+
+            const cards = document.querySelectorAll('.event-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.classList.contains(category)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Modal Functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+            // Reset form inside if needed
+            document.getElementById('joinForm').classList.remove('hidden');
+            document.getElementById('joinSuccess').classList.add('hidden');
+        }
+
+        function handleJoinSubmit(e) {
+            e.preventDefault();
+            document.getElementById('joinForm').classList.add('hidden');
+            document.getElementById('joinSuccess').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
